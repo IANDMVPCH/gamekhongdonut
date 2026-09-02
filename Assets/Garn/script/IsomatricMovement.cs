@@ -16,10 +16,13 @@ public class IsometricMovement : MonoBehaviour
     private Vector2 movement;
     private bool isDashing;
     private float nextDashTime;
+    Stamina stamina;
+    [SerializeField] private float dashStamina = 50f;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        stamina = GetComponent<Stamina>();
     }
 
     void Update()
@@ -31,9 +34,10 @@ public class IsometricMovement : MonoBehaviour
         movement = new Vector2(horizontal - vertical, horizontal + vertical).normalized;
 
         // Trigger Dash
-        if (Input.GetKeyDown(KeyCode.Space) && Time.time >= nextDashTime && !isDashing)
+        if (Input.GetKeyDown(KeyCode.Space) && Time.time >= nextDashTime && !isDashing && stamina.CurrentStamina >= dashStamina)
         {
             Dash();
+            stamina.ConsumeStaminaOnce(dashStamina);
         }
     }
 
