@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Garn/Scenes/MainMenu.unity
     guid: 32443de9402e8674d97083df9f3c008b
+  - enabled: 1
+    path: Assets/Garn/Scenes/VideoScene.unity
+    guid: 85cee40fc0d4610489f4d5915c009170
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
