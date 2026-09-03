@@ -259,4 +259,5 @@ public class Enemy : MonoBehaviour
             Gizmos.DrawSphere(currentSearchWaypoint, 0.2f);
         }
     }
+    
 }

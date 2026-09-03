@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PlayerMoney : MonoBehaviour
 {
+    [Header("Money")]
     public int money = 100;
 
     public bool SpendMoney(int amount)
@@ -22,5 +23,12 @@ public class PlayerMoney : MonoBehaviour
     public void AddMoney(int amount)
     {
         money += amount;
+
+        Debug.Log("Money: " + money);
+    }
+
+    public int GetMoney()
+    {
+        return money;
     }
 }

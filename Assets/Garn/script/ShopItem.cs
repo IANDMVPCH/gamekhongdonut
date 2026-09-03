@@ -9,8 +9,18 @@ public class ShopItem : MonoBehaviour
     [Header("Item To Give")]
     public GameObject itemPrefab;
 
+    [Header("Purchase")]
+    public bool purchased = false;
+
     public void BuyItem()
     {
+        // Already bought
+        if (purchased)
+        {
+            Debug.Log("You already bought " + itemName + "!");
+            return;
+        }
+
         PlayerMoney playerMoney = FindFirstObjectByType<PlayerMoney>();
 
         if (playerMoney == null)
@@ -19,9 +29,14 @@ public class ShopItem : MonoBehaviour
             return;
         }
 
+        // Check if player has enough money
         if (playerMoney.SpendMoney(price))
         {
+            // Give the item
             GiveItem();
+
+            // Mark as purchased
+            purchased = true;
 
             Debug.Log("Bought: " + itemName);
         }
