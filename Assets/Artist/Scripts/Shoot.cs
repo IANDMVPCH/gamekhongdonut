@@ -17,8 +17,9 @@ public class Shoot : MonoBehaviour
     public int maxReserveAmmo = 90;
     public float reloadTime = 1.5f;
 
-    [Header("Gun Ownership")]
+    [Header("Gun Ownership & Visuals")]
     public bool hasGun = false;
+    public SpriteRenderer gunSprite; // Drag gun object's SpriteRenderer here
 
     [Header("UI References")]
     public TextMeshProUGUI ammoText;
@@ -36,6 +37,12 @@ public class Shoot : MonoBehaviour
 
     void Update()
     {
+        // Toggle gun sprite visibility
+        if (gunSprite != null)
+        {
+            gunSprite.enabled = hasGun;
+        }
+
         // If player doesn't have a gun, hide UI and block input
         if (!hasGun)
         {
