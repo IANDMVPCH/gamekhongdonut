@@ -14,6 +14,10 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float sightRadius = 10f;
     [SerializeField] private LayerMask obstacleMask;
 
+    [Header("Friendly Fire Avoidance")]
+    [SerializeField] private LayerMask allyMask;             // Layer assigned to Enemy GameObjects
+    [SerializeField] private float friendlyFireRadius = 0.3f; // Width of the friendly fire safety check
+
     [Header("Combat Settings")]
     [SerializeField] private float idealRange = 4f;
     [SerializeField] private float fireRate = 1.5f;
@@ -92,6 +96,20 @@ public class Enemy : MonoBehaviour
         return hit.collider == null;
     }
 
+    private bool IsAllyInLineOfFire()
+    {
+        Vector3 spawnPosition = transform.position + (Vector3)offset;
+        Vector2 directionToPlayer = (player.position - spawnPosition).normalized;
+        float distanceToPlayer = Vector2.Distance(spawnPosition, player.position);
+
+        myCollider.enabled = false;
+        // CircleCast towards player to detect ally bodies in the shot window
+        RaycastHit2D hit = Physics2D.CircleCast(spawnPosition, friendlyFireRadius, directionToPlayer, distanceToPlayer, allyMask);
+        myCollider.enabled = true;
+
+        return hit.collider != null && hit.collider.gameObject != gameObject;
+    }
+
     private void ExecuteState()
     {
         switch (currentState)
@@ -101,13 +119,20 @@ public class Enemy : MonoBehaviour
                 break;
 
             case AIState.TargetSpotted:
-                TryShoot();
+                bool lineOfFireBlocked = IsAllyInLineOfFire();
+
+                // Only fire if an ally is not in the line of fire
+                if (!lineOfFireBlocked)
+                {
+                    TryShoot();
+                }
 
                 float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
-                if (distanceToPlayer > idealRange)
+                // Reposition if out of range OR if shot is blocked by an ally
+                if (distanceToPlayer > idealRange || lineOfFireBlocked)
                 {
-                    MoveTowards(player.position);
+                    MoveTowards(player.position, lineOfFireBlocked);
                 }
                 else
                 {
@@ -127,7 +152,7 @@ public class Enemy : MonoBehaviour
 
                 if (!reachedLastKnownPos)
                 {
-                    MoveTowards(lastKnownPosition);
+                    MoveTowards(lastKnownPosition, false);
 
                     if (Vector2.Distance(transform.position, lastKnownPosition) <= 0.5f)
                     {
@@ -137,7 +162,7 @@ public class Enemy : MonoBehaviour
                 }
                 else
                 {
-                    MoveTowards(currentSearchWaypoint);
+                    MoveTowards(currentSearchWaypoint, false);
 
                     if (Vector2.Distance(transform.position, currentSearchWaypoint) <= 0.5f)
                     {
@@ -154,29 +179,33 @@ public class Enemy : MonoBehaviour
         currentSearchWaypoint = lastKnownPosition + (Vector3)randomOffset;
     }
 
-    private void MoveTowards(Vector3 targetPosition)
+    private void MoveTowards(Vector3 targetPosition, bool strafeMode)
     {
         Vector2 lineOfSightVector = ((Vector2)targetPosition - rb.position).normalized;
-        Vector2 finalMoveDirection = GetContextSteeringDirection(targetPosition, lineOfSightVector);
+        Vector2 finalMoveDirection = GetContextSteeringDirection(targetPosition, lineOfSightVector, strafeMode);
 
-        // Smoothly set velocity along the chosen clearance direction
         rb.velocity = finalMoveDirection * moveSpeed;
     }
 
-    // Context-Based Steering: Samples 360-degree directions to round box corners cleanly
-    private Vector2 GetContextSteeringDirection(Vector3 targetPosition, Vector2 lineOfSightVector)
+    // Context-Based Steering: Includes ally collision and strafe scoring when shot is blocked
+    private Vector2 GetContextSteeringDirection(Vector3 targetPosition, Vector2 lineOfSightVector, bool strafeMode)
     {
         myCollider.enabled = false;
+
+        LayerMask combinedMask = obstacleMask | allyMask;
 
         float distanceToTarget = Vector2.Distance(transform.position, targetPosition);
         float checkDistance = Mathf.Min(distanceToTarget, lookAheadDistance);
 
-        // Direct path check
-        RaycastHit2D directHit = Physics2D.CircleCast(transform.position, enemyRadius, lineOfSightVector, checkDistance, obstacleMask);
-        if (directHit.collider == null)
+        // Direct path check (including allies)
+        if (!strafeMode)
         {
-            myCollider.enabled = true;
-            return lineOfSightVector;
+            RaycastHit2D directHit = Physics2D.CircleCast(transform.position, enemyRadius, lineOfSightVector, checkDistance, combinedMask);
+            if (directHit.collider == null || directHit.collider.gameObject == gameObject)
+            {
+                myCollider.enabled = true;
+                return lineOfSightVector;
+            }
         }
 
         Vector2 bestDirection = lineOfSightVector;
@@ -188,17 +217,22 @@ public class Enemy : MonoBehaviour
             float angle = i * (360f / rayCount);
             Vector2 dir = Quaternion.Euler(0, 0, angle) * Vector2.right;
 
-            // Interest: Preference for directions pointing toward target (-1 to 1)
+            // Interest: Standard forward bias, or lateral bias during strafe mode
             float interest = Vector2.Dot(dir, lineOfSightVector);
+            if (strafeMode)
+            {
+                // Penalize forward/backward movement and reward perpendicular angles to flank
+                interest = 1f - Mathf.Abs(interest);
+            }
 
-            // Danger: Heavy penalty for directions hitting box faces or corners
-            RaycastHit2D hit = Physics2D.CircleCast(transform.position, enemyRadius, dir, lookAheadDistance, obstacleMask);
+            // Danger: Heavy penalty for obstacles and allies
+            RaycastHit2D hit = Physics2D.CircleCast(transform.position, enemyRadius, dir, lookAheadDistance, combinedMask);
             float danger = 0f;
 
-            if (hit.collider != null)
+            if (hit.collider != null && hit.collider.gameObject != gameObject)
             {
                 float normalizedDist = hit.distance / lookAheadDistance;
-                danger = (1f - normalizedDist) * 3f; // Proximity multiplier
+                danger = (1f - normalizedDist) * 3f;
             }
 
             float score = interest - danger;
@@ -247,7 +281,7 @@ public class Enemy : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, idealRange);
 
         Gizmos.color = Color.cyan;
-        Gizmos.DrawSphere(transform.position + (Vector3)offset, 0.1f);
+        Gizmos.DrawSphere(transform.position + (Vector3)offset, friendlyFireRadius);
 
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, enemyRadius);
@@ -259,5 +293,4 @@ public class Enemy : MonoBehaviour
             Gizmos.DrawSphere(currentSearchWaypoint, 0.2f);
         }
     }
-    
 }

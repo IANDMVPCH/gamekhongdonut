@@ -1,6 +1,6 @@
 using System.Collections;
 using UnityEngine;
-using TMPro; // Standard for TextMeshPro UI
+using TMPro;
 
 public class Shoot : MonoBehaviour
 {
@@ -16,6 +16,9 @@ public class Shoot : MonoBehaviour
     public int maxMagazineAmmo = 12;
     public int maxReserveAmmo = 90;
     public float reloadTime = 1.5f;
+
+    [Header("Gun Ownership")]
+    public bool hasGun = false;
 
     [Header("UI References")]
     public TextMeshProUGUI ammoText;
@@ -33,6 +36,13 @@ public class Shoot : MonoBehaviour
 
     void Update()
     {
+        // If player doesn't have a gun, hide UI and block input
+        if (!hasGun)
+        {
+            if (ammoText != null) ammoText.text = "";
+            return;
+        }
+
         UpdateUI();
 
         if (isReloading) return;
@@ -63,29 +73,20 @@ public class Shoot : MonoBehaviour
     {
         currentMagazineAmmo--;
 
-        // 1. Get mouse position in screen pixels
         Vector3 mouseScreenPosition = Input.mousePosition;
-
-        // 2. Set Z depth to the distance between camera and the 2D plane (Z = 0)
         mouseScreenPosition.z = -Camera.main.transform.position.z;
-
-        // 3. Convert screen pixels to world coordinates at the correct depth
         Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mouseScreenPosition);
 
-        // 4. Calculate direction from FirePoint to mouse position
         Vector2 direction = ((Vector2)mouseWorldPosition - (Vector2)firePoint.position).normalized;
 
-        // Spawn bullet
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
 
-        // Set velocity
         Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
         if (bulletRb != null)
         {
             bulletRb.linearVelocity = direction * bulletSpeed;
         }
 
-        // Rotate bullet toward cursor
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         bullet.transform.rotation = Quaternion.Euler(0f, 0f, angle);
     }
