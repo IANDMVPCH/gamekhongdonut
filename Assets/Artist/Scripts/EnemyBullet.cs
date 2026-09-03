@@ -29,7 +29,7 @@ public class EnemyBullet : MonoBehaviour
         // Deal damage if the non-exception object is the player
         if (collision.CompareTag("Player"))
         {
-            PlayerHealth player = collision.GetComponent<PlayerHealth>();
+            HealthPlayer player = collision.GetComponent<HealthPlayer>();
             if (player != null)
             {
                 player.TakeDamage(damage);
