@@ -2318,8 +2318,8 @@ MonoBehaviour:
   answerCText: {fileID: 1087501712}
   resultText: {fileID: 87098589}
   mapBackground: {fileID: 1010567509}
-  normalMap: {fileID: 21300000, guid: 74b444a7350275449b25d8b3b48fb399, type: 3}
-  openDoorMap: {fileID: 21300000, guid: 1dbb1076b7d54054a82d687f8fd5a29c, type: 3}
+  normalMap: {fileID: 21300000, guid: b4c9d3d5a0952794b9b13a8a2bf9ae16, type: 3}
+  openDoorMap: {fileID: 21300000, guid: 8ddd4eb7f342ecb4fabad4d2562d934c, type: 3}
   door: {fileID: 397342094}
 --- !u!1 &737082110
 GameObject:

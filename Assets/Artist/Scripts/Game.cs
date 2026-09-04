@@ -15,7 +15,8 @@ public static class GameData
         "Ice",
         "Lightning",
         "Toxic",
-        "Lava"
+        "Lava",
+        "Bossmap"
     };
 
     public static void ResetData()
