@@ -11,8 +11,10 @@ public static class GameData
     public static string[] levelScenes = new string[]
     {
         "Water",
+        "Rock",
         "Ice",
         "Lightning",
+        "Toxic",
         "Lava"
     };
 
