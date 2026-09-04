@@ -2,16 +2,14 @@ using UnityEngine;
 
 public class PlayerMoney : MonoBehaviour
 {
-    [Header("Money")]
-    public int money = 100;
 
     public bool SpendMoney(int amount)
     {
-        if (money >= amount)
+        if (GameData.currentMoney >= amount)
         {
-            money -= amount;
+            GameData.currentMoney -= amount;
 
-            Debug.Log("Money left: " + money);
+            Debug.Log("Money left: " + GameData.currentMoney);
 
             return true;
         }
@@ -22,13 +20,13 @@ public class PlayerMoney : MonoBehaviour
 
     public void AddMoney(int amount)
     {
-        money += amount;
+        GameData.currentMoney += amount;
 
-        Debug.Log("Money: " + money);
+        Debug.Log("Money: " + GameData.currentMoney);
     }
 
     public int GetMoney()
     {
-        return money;
+        return GameData.currentMoney;
     }
 }
