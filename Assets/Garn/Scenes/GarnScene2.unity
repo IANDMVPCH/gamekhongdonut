@@ -977,7 +977,7 @@ Transform:
   m_GameObject: {fileID: 408515440}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.813675, y: 3.2652373, z: -3}
+  m_LocalPosition: {x: -6, y: -3.0000005, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1882,7 +1882,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0, g: 1, b: 0.945554, a: 1}
+  m_Color: {r: 0, g: 1, b: 0.945554, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1900,7 +1900,7 @@ Transform:
   m_GameObject: {fileID: 644422712}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8, y: 2.1302757, z: -3}
+  m_LocalPosition: {x: 6, y: 3, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1927,6 +1927,9 @@ MonoBehaviour:
   answerBText: {fileID: 1401298676}
   answerCText: {fileID: 1087501712}
   resultText: {fileID: 87098589}
+  mapBackground: {fileID: 1010567509}
+  normalMap: {fileID: 21300000, guid: 3e5f36aa94fcdd24db7ae63c4da192b9, type: 3}
+  openDoorMap: {fileID: 21300000, guid: 3a895843efd41b44a80b9819ac0046a0, type: 3}
 --- !u!1 &737082110
 GameObject:
   m_ObjectHideFlags: 0
