@@ -29,90 +29,208 @@ public class NPCQuiz : MonoBehaviour
     public Sprite normalMap;
     public Sprite openDoorMap;
 
+    [Header("Door")]
+    public GameObject door;
+
     private bool playerNearby = false;
     private bool answeredCorrectly = false;
 
-    void Start()
+    private void Start()
     {
-        quizCanvas.SetActive(false);
+        // Hide quiz
+        if (quizCanvas != null)
+        {
+            quizCanvas.SetActive(false);
+        }
 
-        // Set the original map
+        // Set normal map
         if (mapBackground != null && normalMap != null)
         {
             mapBackground.sprite = normalMap;
         }
 
-        answerAButton.onClick.AddListener(() => CheckAnswer(1));
-        answerBButton.onClick.AddListener(() => CheckAnswer(2));
-        answerCButton.onClick.AddListener(() => CheckAnswer(3));
+        // Hide door until quiz is completed
+        if (door != null)
+        {
+            door.SetActive(false);
+        }
+
+        // Connect buttons
+        if (answerAButton != null)
+        {
+            answerAButton.onClick.AddListener(() => CheckAnswer(1));
+        }
+
+        if (answerBButton != null)
+        {
+            answerBButton.onClick.AddListener(() => CheckAnswer(2));
+        }
+
+        if (answerCButton != null)
+        {
+            answerCButton.onClick.AddListener(() => CheckAnswer(3));
+        }
     }
 
-    void Update()
+    private void Update()
     {
+        // Open quiz
         if (playerNearby && Input.GetKeyDown(KeyCode.E))
         {
             OpenQuiz();
         }
 
-        if (quizCanvas.activeSelf && Input.GetKeyDown(KeyCode.Escape))
+        // Close quiz
+        if (quizCanvas != null &&
+            quizCanvas.activeSelf &&
+            Input.GetKeyDown(KeyCode.Escape))
         {
             CloseQuiz();
         }
     }
 
-    void OpenQuiz()
+    private void OpenQuiz()
     {
-        // Don't open the quiz again after answering correctly
+        // Don't open again after completing it
         if (answeredCorrectly)
+        {
             return;
+        }
+
+        if (quizCanvas == null)
+        {
+            Debug.LogError("Quiz Canvas is not assigned!");
+            return;
+        }
 
         quizCanvas.SetActive(true);
 
-        questionText.text = "What is 1 + 1?";
+        // Question
+        if (questionText != null)
+        {
+            questionText.text = "What is 1 + 1?";
+        }
 
-        answerAText.text = "A. 1";
-        answerBText.text = "B. 2";
-        answerCText.text = "C. 3";
+        // Answers
+        if (answerAText != null)
+        {
+            answerAText.text = "A. 1";
+        }
 
-        resultText.text = "";
+        if (answerBText != null)
+        {
+            answerBText.text = "B. 2";
+        }
 
-        answerAButton.interactable = true;
-        answerBButton.interactable = true;
-        answerCButton.interactable = true;
+        if (answerCText != null)
+        {
+            answerCText.text = "C. 3";
+        }
+
+        // Clear result
+        if (resultText != null)
+        {
+            resultText.text = "";
+        }
+
+        // Enable buttons
+        if (answerAButton != null)
+        {
+            answerAButton.interactable = true;
+        }
+
+        if (answerBButton != null)
+        {
+            answerBButton.interactable = true;
+        }
+
+        if (answerCButton != null)
+        {
+            answerCButton.interactable = true;
+        }
     }
 
-    void CheckAnswer(int answer)
+    private void CheckAnswer(int answer)
     {
+        // Correct answer = B
         if (answer == 2)
         {
-            resultText.text = "Correct!";
+            if (resultText != null)
+            {
+                resultText.text = "Correct!";
+            }
 
             answeredCorrectly = true;
 
-            // CHANGE MAP TO OPEN DOOR
+            // Change background
             ChangeMap();
 
-            answerAButton.interactable = false;
-            answerBButton.interactable = false;
-            answerCButton.interactable = false;
+            // SHOW DOOR
+            ShowDoor();
+
+            // Disable buttons
+            if (answerAButton != null)
+            {
+                answerAButton.interactable = false;
+            }
+
+            if (answerBButton != null)
+            {
+                answerBButton.interactable = false;
+            }
+
+            if (answerCButton != null)
+            {
+                answerCButton.interactable = false;
+            }
+
+            Debug.Log("Quiz completed! Door appeared.");
         }
         else
         {
-            resultText.text = "Wrong!";
+            if (resultText != null)
+            {
+                resultText.text = "Wrong!";
+            }
+
+            Debug.Log("Wrong answer!");
         }
     }
 
-    void ChangeMap()
+    private void ChangeMap()
     {
         if (mapBackground != null && openDoorMap != null)
         {
             mapBackground.sprite = openDoorMap;
+
+            Debug.Log("Map changed to open door!");
+        }
+        else
+        {
+            Debug.LogWarning("Map Background or Open Door Map is not assigned!");
         }
     }
 
-    void CloseQuiz()
+    private void ShowDoor()
     {
-        quizCanvas.SetActive(false);
+        if (door != null)
+        {
+            door.SetActive(true);
+
+            Debug.Log("Door appeared!");
+        }
+        else
+        {
+            Debug.LogWarning("Door GameObject is not assigned!");
+        }
+    }
+
+    private void CloseQuiz()
+    {
+        if (quizCanvas != null)
+        {
+            quizCanvas.SetActive(false);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -120,6 +238,8 @@ public class NPCQuiz : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerNearby = true;
+
+            Debug.Log("Player is near the NPC. Press E.");
         }
     }
 
@@ -128,6 +248,7 @@ public class NPCQuiz : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerNearby = false;
+
             CloseQuiz();
         }
     }
