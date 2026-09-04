@@ -13,19 +13,13 @@ EditorBuildSettings:
     guid: 718f2c1e10a4c7743a6156b851e268fd
   - enabled: 1
     path: Assets/Garn/Scenes/Minigame.unity
-    guid: 00c2e7fda1e18ca438354d2c83e06f04
+    guid: 9b5d28aa17365ab42bee00839b0cac40
   - enabled: 1
     path: Assets/Garn/Scenes/MainMenu.unity
     guid: 32443de9402e8674d97083df9f3c008b
   - enabled: 1
     path: Assets/Garn/Scenes/VideoScene.unity
     guid: 85cee40fc0d4610489f4d5915c009170
-  - enabled: 1
-    path: Assets/Artist/Scenes/ArtistScene(Lava).unity
-    guid: 4443cc6faf781054fba0fea25fec4c8d
-  - enabled: 1
-    path: Assets/Artist/Scenes/BackUp.unity
-    guid: 20052d55226ce1d489ea16e6f3156d2d
   - enabled: 1
     path: Assets/Artist/Scenes/GameOverArtist.unity
     guid: 429ef0a96175c3e42bd63351543a5cf6
@@ -34,7 +28,7 @@ EditorBuildSettings:
     guid: 8e7cc1b16577328409330bb2d56a3ce3
   - enabled: 1
     path: Assets/Garn/Scenes/GarnScene3.unity
-    guid: fb7ea899c0683ec459295b3152fc377c
+    guid: dca34f150914f644892f911327e71e36
   - enabled: 1
     path: Assets/Garn/Scenes/GarnScene6.unity
     guid: 260e2812a7ff70140ae25b3f4984b664
@@ -53,6 +47,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Artist/Scenes/Real Levels/Lava.unity
     guid: 4f2d8846cf5723e4089971faeac1b160
+  - enabled: 1
+    path: Assets/Artist/Scenes/Real Levels/BackUp.unity
+    guid: 6f46c0a815544db499cb379aad989d29
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
