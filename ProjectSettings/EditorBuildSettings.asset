@@ -50,6 +50,21 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Artist/Scenes/Real Levels/BackUp.unity
     guid: 6f46c0a815544db499cb379aad989d29
+  - enabled: 1
+    path: Assets/Artist/Scenes/Real Levels/Rock.unity
+    guid: 7585a6585fc15e24d847a6c6f4536ef8
+  - enabled: 1
+    path: Assets/Artist/Scenes/Real Levels/Toxic.unity
+    guid: 1e95607fe19084a4283e28b1d03711c5
+  - enabled: 1
+    path: Assets/Garn/Scenes/Bossmap.unity
+    guid: 7620e2044c8a9dd4f963b165ff1756bd
+  - enabled: 1
+    path: Assets/Garn/Scenes/GarnScene6 1.unity
+    guid: 8e3e4573d2e280642af584bad539aaea
+  - enabled: 1
+    path: Assets/Garn/Scenes/LevelSelect.unity
+    guid: 6858cbfbb054f0b40b5419d010837601
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

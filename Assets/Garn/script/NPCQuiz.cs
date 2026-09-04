@@ -8,6 +8,20 @@ public class NPCQuiz : MonoBehaviour
     public GameObject quizCanvas;
 
     [Header("Question")]
+    [TextArea(2, 5)]
+    public string question = "What is 1 + 1?";
+
+    [Header("Choices")]
+    public string choiceA = "1";
+    public string choiceB = "2";
+    public string choiceC = "3";
+
+    [Header("Correct Answer")]
+    [Tooltip("1 = A, 2 = B, 3 = C")]
+    [Range(1, 3)]
+    public int correctAnswer = 2;
+
+    [Header("Question")]
     public TMP_Text questionText;
 
     [Header("Answer Buttons")]
@@ -34,6 +48,11 @@ public class NPCQuiz : MonoBehaviour
 
     private bool playerNearby = false;
     private bool answeredCorrectly = false;
+
+
+    // =========================================================
+    // START
+    // =========================================================
 
     private void Start()
     {
@@ -72,6 +91,11 @@ public class NPCQuiz : MonoBehaviour
         }
     }
 
+
+    // =========================================================
+    // UPDATE
+    // =========================================================
+
     private void Update()
     {
         // Open quiz
@@ -89,6 +113,11 @@ public class NPCQuiz : MonoBehaviour
         }
     }
 
+
+    // =========================================================
+    // OPEN QUIZ
+    // =========================================================
+
     private void OpenQuiz()
     {
         // Don't open again after completing it
@@ -105,33 +134,37 @@ public class NPCQuiz : MonoBehaviour
 
         quizCanvas.SetActive(true);
 
-        // Question
+
+        // Set question
         if (questionText != null)
         {
-            questionText.text = "What is 1 + 1?";
+            questionText.text = question;
         }
 
-        // Answers
+
+        // Set choices
         if (answerAText != null)
         {
-            answerAText.text = "A. 1";
+            answerAText.text = "A. " + choiceA;
         }
 
         if (answerBText != null)
         {
-            answerBText.text = "B. 2";
+            answerBText.text = "B. " + choiceB;
         }
 
         if (answerCText != null)
         {
-            answerCText.text = "C. 3";
+            answerCText.text = "C. " + choiceC;
         }
+
 
         // Clear result
         if (resultText != null)
         {
             resultText.text = "";
         }
+
 
         // Enable buttons
         if (answerAButton != null)
@@ -150,10 +183,15 @@ public class NPCQuiz : MonoBehaviour
         }
     }
 
+
+    // =========================================================
+    // CHECK ANSWER
+    // =========================================================
+
     private void CheckAnswer(int answer)
     {
-        // Correct answer = B
-        if (answer == 2)
+        // Correct answer
+        if (answer == correctAnswer)
         {
             if (resultText != null)
             {
@@ -162,11 +200,14 @@ public class NPCQuiz : MonoBehaviour
 
             answeredCorrectly = true;
 
+
             // Change background
             ChangeMap();
 
-            // SHOW DOOR
+
+            // Show door
             ShowDoor();
+
 
             // Disable buttons
             if (answerAButton != null)
@@ -184,6 +225,7 @@ public class NPCQuiz : MonoBehaviour
                 answerCButton.interactable = false;
             }
 
+
             Debug.Log("Quiz completed! Door appeared.");
         }
         else
@@ -197,6 +239,11 @@ public class NPCQuiz : MonoBehaviour
         }
     }
 
+
+    // =========================================================
+    // CHANGE MAP
+    // =========================================================
+
     private void ChangeMap()
     {
         if (mapBackground != null && openDoorMap != null)
@@ -207,9 +254,16 @@ public class NPCQuiz : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Map Background or Open Door Map is not assigned!");
+            Debug.LogWarning(
+                "Map Background or Open Door Map is not assigned!"
+            );
         }
     }
+
+
+    // =========================================================
+    // SHOW DOOR
+    // =========================================================
 
     private void ShowDoor()
     {
@@ -221,9 +275,16 @@ public class NPCQuiz : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Door GameObject is not assigned!");
+            Debug.LogWarning(
+                "Door GameObject is not assigned!"
+            );
         }
     }
+
+
+    // =========================================================
+    // CLOSE QUIZ
+    // =========================================================
 
     private void CloseQuiz()
     {
@@ -233,15 +294,23 @@ public class NPCQuiz : MonoBehaviour
         }
     }
 
+
+    // =========================================================
+    // PLAYER DETECTION
+    // =========================================================
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
             playerNearby = true;
 
-            Debug.Log("Player is near the NPC. Press E.");
+            Debug.Log(
+                "Player is near the NPC. Press E."
+            );
         }
     }
+
 
     private void OnTriggerExit2D(Collider2D other)
     {

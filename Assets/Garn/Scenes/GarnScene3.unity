@@ -1468,7 +1468,7 @@ MonoBehaviour:
   maxMagazineAmmo: 12
   maxReserveAmmo: 90
   reloadTime: 1.5
-  hasGun: 0
+  hasGun: 1
   gunSprite: {fileID: 1605655292}
   ammoText: {fileID: 1705986248}
 --- !u!114 &408515453
@@ -2286,8 +2286,8 @@ MonoBehaviour:
   answerCText: {fileID: 1087501712}
   resultText: {fileID: 87098589}
   mapBackground: {fileID: 1010567509}
-  normalMap: {fileID: 21300000, guid: 74b444a7350275449b25d8b3b48fb399, type: 3}
-  openDoorMap: {fileID: 21300000, guid: 1dbb1076b7d54054a82d687f8fd5a29c, type: 3}
+  normalMap: {fileID: 21300000, guid: 500d21b1c67950f498043f20e1989f25, type: 3}
+  openDoorMap: {fileID: 21300000, guid: ecb7d62ce65d36c48aae5600c977b7a5, type: 3}
   door: {fileID: 397342094}
 --- !u!1 &737082110
 GameObject:
@@ -3183,7 +3183,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 4
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 74b444a7350275449b25d8b3b48fb399, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 500d21b1c67950f498043f20e1989f25, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

@@ -12,6 +12,10 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        // =========================
+        // NORMAL ENEMY
+        // =========================
+
         if (other.CompareTag("Enemy"))
         {
             EnemyHealth enemy = other.GetComponent<EnemyHealth>();
@@ -22,6 +26,24 @@ public class Bullet : MonoBehaviour
             }
 
             Destroy(gameObject);
+            return;
+        }
+
+
+        // =========================
+        // FINAL BOSS
+        // =========================
+
+        FinalBoss boss = other.GetComponent<FinalBoss>();
+
+        if (boss != null)
+        {
+            boss.TakeDamage(damage);
+
+            Debug.Log("Bullet hit FINAL BOSS for " + damage + " damage!");
+
+            Destroy(gameObject);
+            return;
         }
     }
 }

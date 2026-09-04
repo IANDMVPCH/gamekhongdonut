@@ -171,7 +171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f67e32408bef0904fbf7b516d921b35c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameOverButton
-  sceneName: Minigame
+  sceneName: Water
 --- !u!114 &573397780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -666,8 +666,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.4999084, y: 6}
-  m_SizeDelta: {x: 1060.9998, y: 550}
+  m_AnchoredPosition: {x: 319.4999, y: -114}
+  m_SizeDelta: {x: 2966.9998, y: 1408}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1421410216
 MonoBehaviour:

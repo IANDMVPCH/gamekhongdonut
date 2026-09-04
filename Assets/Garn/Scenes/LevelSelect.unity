@@ -478,12 +478,12 @@ MonoBehaviour:
   - {fileID: 529916846}
   - {fileID: 1258060517}
   sceneNames:
-  - GarnScene1
-  - GarnScene2
-  - GarnScene3
-  - GarnScene2
-  - GarnScene2
-  - GarnScene6
+  - Ice
+  - Lava
+  - Lightning
+  - Rock
+  - Toxic
+  - Water
   zoomScale: 2.5
   zoomDuration: 0.5
   leftArrow: {fileID: 588372779}
@@ -670,7 +670,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1698.7119, y: 210.46106}
+  m_AnchoredPosition: {x: 1222.1309, y: 516.28955}
   m_SizeDelta: {x: 314, y: 314}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &362364782
@@ -1071,7 +1071,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1454.5352, y: -817.3425}
+  m_AnchoredPosition: {x: 1454.5352, y: -826.71045}
   m_SizeDelta: {x: 323.0001, y: 323.0001}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &529916847
@@ -2297,7 +2297,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1011.78687, y: 543.541}
+  m_AnchoredPosition: {x: -1001.86914, y: 543.541}
   m_SizeDelta: {x: 352.1633, y: 352.16}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1008425299
@@ -2903,7 +2903,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 783.5366, y: 85.65271}
+  m_AnchoredPosition: {x: 1561.1309, y: 85.65271}
   m_SizeDelta: {x: 405, y: 405}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1258060518
