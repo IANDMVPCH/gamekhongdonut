@@ -40,4 +40,10 @@ public class LevelLoader : MonoBehaviour
 
         LoadCurrentLevel();
     }
+
+    public void LoadFirstLevel()
+    {
+        GameData.ResetData();
+        SceneManager.LoadScene(GameData.levelScenes[0]);
+    }
 }

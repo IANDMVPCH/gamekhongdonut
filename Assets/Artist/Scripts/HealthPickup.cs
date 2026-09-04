@@ -8,7 +8,7 @@ public class HealthPickup : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
+        HealthPlayer playerHealth = other.GetComponent<HealthPlayer>();
 
         if (playerHealth != null && playerHealth.GetCurrentHealth() < playerHealth.GetMaxHealth())
         {

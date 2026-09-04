@@ -41,6 +41,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Garn/Scenes/GarnScene1.unity
     guid: 2e68737602c738142b3337fb2f64d8cb
+  - enabled: 1
+    path: Assets/Artist/Scenes/Real Levels/Water.unity
+    guid: f1caec115991bb14099b7b1fab028328
+  - enabled: 1
+    path: Assets/Artist/Scenes/Real Levels/Ice.unity
+    guid: 56ca4668eb0fe134f819c8dcb4eda4f2
+  - enabled: 1
+    path: Assets/Artist/Scenes/Real Levels/Lightning.unity
+    guid: b529dae37975c6443aab5a4b22ca5fa6
+  - enabled: 1
+    path: Assets/Artist/Scenes/Real Levels/Lava.unity
+    guid: 4f2d8846cf5723e4089971faeac1b160
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

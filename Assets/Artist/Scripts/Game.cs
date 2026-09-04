@@ -8,7 +8,10 @@ public static class GameData
     // Array of scene names in level order
     public static string[] levelScenes = new string[]
     {
-        "ArtistScene(Lava)"
+        "Water",
+        "Ice",
+        "Lightning",
+        "Lava"
     };
 
     public static void ResetData()
