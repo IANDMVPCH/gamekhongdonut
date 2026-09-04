@@ -29,6 +29,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Artist/Scenes/GameOverArtist.unity
     guid: 429ef0a96175c3e42bd63351543a5cf6
+  - enabled: 1
+    path: Assets/Garn/Scenes/GarnScene2.unity
+    guid: 8e7cc1b16577328409330bb2d56a3ce3
+  - enabled: 1
+    path: Assets/Garn/Scenes/GarnScene3.unity
+    guid: fb7ea899c0683ec459295b3152fc377c
+  - enabled: 1
+    path: Assets/Garn/Scenes/GarnScene6.unity
+    guid: 260e2812a7ff70140ae25b3f4984b664
+  - enabled: 1
+    path: Assets/Garn/Scenes/GarnScene1.unity
+    guid: 2e68737602c738142b3337fb2f64d8cb
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

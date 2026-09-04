@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlanetSelector : MonoBehaviour
 {
@@ -12,6 +13,10 @@ public class PlanetSelector : MonoBehaviour
     [Header("Planets")]
     public RectTransform[] planets;
 
+    [Header("Planet Scenes")]
+    [Tooltip("Must match the 'planets' array index-for-index. Use the exact scene name as it appears in Build Settings.")]
+    public string[] sceneNames;
+
     [Header("Zoom")]
     public float zoomScale = 2.5f;
     public float zoomDuration = 0.5f;
@@ -19,6 +24,10 @@ public class PlanetSelector : MonoBehaviour
     [Header("Arrows")]
     public Button leftArrow;
     public Button rightArrow;
+
+    [Header("Enter Planet Buttons")]
+    [Tooltip("One button per planet, index-matched to 'planets'. Each button should be set up to call EnterPlanet() with its own index, OR just leave onClick empty and let this script wire it automatically in Start().")]
+    public Button[] enterPlanetButtons;
 
     private Vector3 originalScale;
     private Vector3 originalPosition;
@@ -35,6 +44,21 @@ public class PlanetSelector : MonoBehaviour
 
         leftArrow.gameObject.SetActive(false);
         rightArrow.gameObject.SetActive(false);
+
+        // Hide all enter buttons initially and wire each one to its own index
+        if (enterPlanetButtons != null)
+        {
+            for (int i = 0; i < enterPlanetButtons.Length; i++)
+            {
+                if (enterPlanetButtons[i] == null)
+                    continue;
+
+                enterPlanetButtons[i].gameObject.SetActive(false);
+
+                int capturedIndex = i; // avoid closure bug
+                enterPlanetButtons[i].onClick.AddListener(() => EnterPlanet(capturedIndex));
+            }
+        }
     }
 
     // ==========================================
@@ -50,6 +74,8 @@ public class PlanetSelector : MonoBehaviour
             return;
 
         currentPlanet = index;
+
+        HideAllEnterButtons();
 
         if (!isZoomed)
         {
@@ -86,34 +112,25 @@ public class PlanetSelector : MonoBehaviour
             float t = Mathf.Clamp01(time / zoomDuration);
             t = Mathf.SmoothStep(0f, 1f, t);
 
-            // Zoom
-            mapContent.localScale = Vector3.Lerp(
-                startScale,
-                targetScale,
-                t
-            );
+            mapContent.localScale = Vector3.Lerp(startScale, targetScale, t);
 
-            // Center planet
             Vector3 planetCenter = GetPlanetCenter();
             Vector3 viewportCenter = GetViewportCenter();
-
             Vector3 difference = viewportCenter - planetCenter;
 
-            // Calculate target position from original position
-            mapContent.position =
-                startPosition + difference;
+            mapContent.position = startPosition + difference;
 
             yield return null;
         }
 
         mapContent.localScale = targetScale;
 
-        // Final centering
         CenterPlanet();
 
         isMoving = false;
 
         UpdateArrows();
+        ShowEnterButtonForCurrentPlanet();
     }
 
     // ==========================================
@@ -135,30 +152,23 @@ public class PlanetSelector : MonoBehaviour
             float t = Mathf.Clamp01(time / zoomDuration);
             t = Mathf.SmoothStep(0f, 1f, t);
 
-            // Current planet position
             Vector3 planetCenter = GetPlanetCenter();
             Vector3 viewportCenter = GetViewportCenter();
-
             Vector3 difference = viewportCenter - planetCenter;
 
-            Vector3 targetPosition =
-                mapContent.position + difference;
+            Vector3 targetPosition = mapContent.position + difference;
 
-            mapContent.position = Vector3.Lerp(
-                startPosition,
-                targetPosition,
-                t
-            );
+            mapContent.position = Vector3.Lerp(startPosition, targetPosition, t);
 
             yield return null;
         }
 
-        // Make sure it is perfectly centered
         CenterPlanet();
 
         isMoving = false;
 
         UpdateArrows();
+        ShowEnterButtonForCurrentPlanet();
     }
 
     // ==========================================
@@ -174,6 +184,8 @@ public class PlanetSelector : MonoBehaviour
             return;
 
         currentPlanet--;
+
+        HideAllEnterButtons();
 
         StartCoroutine(MoveToPlanet());
     }
@@ -192,7 +204,56 @@ public class PlanetSelector : MonoBehaviour
 
         currentPlanet++;
 
+        HideAllEnterButtons();
+
         StartCoroutine(MoveToPlanet());
+    }
+
+    // ==========================================
+    // ENTER PLANET (LOAD SCENE)
+    // ==========================================
+
+    public void EnterPlanet(int index)
+    {
+        if (index < 0 || sceneNames == null || index >= sceneNames.Length)
+            return;
+
+        string sceneName = sceneNames[index];
+
+        if (string.IsNullOrEmpty(sceneName))
+        {
+            Debug.LogWarning($"No scene name assigned for planet index {index}.");
+            return;
+        }
+
+        SceneManager.LoadScene(sceneName);
+    }
+
+    // ==========================================
+    // ENTER BUTTON VISIBILITY
+    // ==========================================
+
+    void HideAllEnterButtons()
+    {
+        if (enterPlanetButtons == null)
+            return;
+
+        foreach (var btn in enterPlanetButtons)
+        {
+            if (btn != null)
+                btn.gameObject.SetActive(false);
+        }
+    }
+
+    void ShowEnterButtonForCurrentPlanet()
+    {
+        if (enterPlanetButtons == null || currentPlanet < 0 || currentPlanet >= enterPlanetButtons.Length)
+            return;
+
+        HideAllEnterButtons();
+
+        if (enterPlanetButtons[currentPlanet] != null)
+            enterPlanetButtons[currentPlanet].gameObject.SetActive(true);
     }
 
     // ==========================================
