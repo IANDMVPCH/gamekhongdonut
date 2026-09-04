@@ -23,11 +23,24 @@ public class NPCQuiz : MonoBehaviour
     [Header("Result")]
     public TMP_Text resultText;
 
+    [Header("Map Background")]
+    public SpriteRenderer mapBackground;
+
+    public Sprite normalMap;
+    public Sprite openDoorMap;
+
     private bool playerNearby = false;
+    private bool answeredCorrectly = false;
 
     void Start()
     {
         quizCanvas.SetActive(false);
+
+        // Set the original map
+        if (mapBackground != null && normalMap != null)
+        {
+            mapBackground.sprite = normalMap;
+        }
 
         answerAButton.onClick.AddListener(() => CheckAnswer(1));
         answerBButton.onClick.AddListener(() => CheckAnswer(2));
@@ -36,13 +49,11 @@ public class NPCQuiz : MonoBehaviour
 
     void Update()
     {
-        // Press E near NPC
         if (playerNearby && Input.GetKeyDown(KeyCode.E))
         {
             OpenQuiz();
         }
 
-        // Press Escape to close
         if (quizCanvas.activeSelf && Input.GetKeyDown(KeyCode.Escape))
         {
             CloseQuiz();
@@ -51,6 +62,10 @@ public class NPCQuiz : MonoBehaviour
 
     void OpenQuiz()
     {
+        // Don't open the quiz again after answering correctly
+        if (answeredCorrectly)
+            return;
+
         quizCanvas.SetActive(true);
 
         questionText.text = "What is 1 + 1?";
@@ -61,7 +76,6 @@ public class NPCQuiz : MonoBehaviour
 
         resultText.text = "";
 
-        // Enable buttons
         answerAButton.interactable = true;
         answerBButton.interactable = true;
         answerCButton.interactable = true;
@@ -69,20 +83,31 @@ public class NPCQuiz : MonoBehaviour
 
     void CheckAnswer(int answer)
     {
-        // B is correct
         if (answer == 2)
         {
             resultText.text = "Correct!";
+
+            answeredCorrectly = true;
+
+            // CHANGE MAP TO OPEN DOOR
+            ChangeMap();
+
+            answerAButton.interactable = false;
+            answerBButton.interactable = false;
+            answerCButton.interactable = false;
         }
         else
         {
             resultText.text = "Wrong!";
         }
+    }
 
-        // Prevent answering again
-        answerAButton.interactable = false;
-        answerBButton.interactable = false;
-        answerCButton.interactable = false;
+    void ChangeMap()
+    {
+        if (mapBackground != null && openDoorMap != null)
+        {
+            mapBackground.sprite = openDoorMap;
+        }
     }
 
     void CloseQuiz()
